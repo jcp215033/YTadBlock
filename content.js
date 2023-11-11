@@ -2,16 +2,16 @@ let isEnabled = true;
 
 function scrubAd() {
   const videoPlayer = document.querySelector("video");
+  while (!videoPlayer.paused) {
+    videoPlayer.currentTime = videoPlayer.duration;
+    videoPlayer.pause();
+  }
   chrome.storage.sync.get({ adsSkipped: 0, timeSaved: 0 }, function (data) {
     chrome.storage.sync.set({
       adsSkipped: data.adsSkipped + 1,
       timeSaved: data.timeSaved + videoPlayer.duration,
     });
   });
-  while (!videoPlayer.paused) {
-    videoPlayer.currentTime = videoPlayer.duration;
-    videoPlayer.pause();
-  }
 }
 
 function handleMutation(mutations) {
