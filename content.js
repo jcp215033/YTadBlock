@@ -1,9 +1,18 @@
+function scrubAd() {
+  const videoPlayer = document.querySelector("video");
+  while (!videoPlayer.paused) {
+    videoPlayer.currentTime = videoPlayer.duration;
+    videoPlayer.pause();
+  }
+}
+
 function handleMutation(mutations) {
   for (const mutation of mutations) {
     if (mutation.type === "attributes" && mutation.attributeName === "class") {
       const targetElement = mutation.target;
       if (targetElement.classList.contains("ad-showing")) {
         console.log("Ad is showing");
+        scrubAd();
       }
     }
   }
