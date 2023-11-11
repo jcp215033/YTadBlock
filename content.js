@@ -23,16 +23,16 @@ function handleMutation(mutations) {
         scrubAd();
       }
     }
-    const skipButton1 = document.querySelector("#skip-button\\:5 button");
-    const skipButton2 = document.querySelector("#skip-button\\:6 button");
-    const skipButton3 = document.querySelector("#skip-button\\:q button");
 
-    if (skipButton1 && skipButton1.offsetParent !== null) {
-      skipButton1.click();
-    } else if (skipButton2 && skipButton2.offsetParent !== null) {
-      skipButton2.click();
-    } else if (skipButton3 && skipButton3.offsetParent !== null) {
-      skipButton3.click();
+    const skipButtons = Array.from(document.querySelectorAll("[id]")).filter(
+      (el) => el.id.startsWith("skip-button:")
+    );
+
+    for (const button of skipButtons) {
+      if (button.offsetParent !== null) {
+        button.click();
+        break;
+      }
     }
   }
 }
