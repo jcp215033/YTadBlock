@@ -1,46 +1,56 @@
 let isEnabled = true;
+let videoPlayer = null;
+let adData = { adsSkipped: 0, timeSaved: 0 };
 
 function scrubAd() {
-  const videoPlayer = document.querySelector("video");
-  while (!videoPlayer.paused) {
+  if (!videoPlayer) {
+    videoPlayer = document.querySelector("video");
+  }
+  if (videoPlayer && !videoPlayer.paused) {
     videoPlayer.currentTime = videoPlayer.duration;
     videoPlayer.pause();
+    adData.adsSkipped++;
+    adData.timeSaved += videoPlayer.duration;
   }
-  chrome.storage.sync.get({ adsSkipped: 0, timeSaved: 0 }, function (data) {
-    chrome.storage.sync.set({
-      adsSkipped: data.adsSkipped + 1,
-      timeSaved: data.timeSaved + videoPlayer.duration,
-    });
-  });
+}
+
+function updateStorage() {
+  chrome.storage.sync.set(adData);
 }
 
 function handleMutation(mutations) {
   if (!isEnabled) return;
-  for (const mutation of mutations) {
-    if (mutation.type === "attributes" && mutation.attributeName === "class") {
-      const targetElement = mutation.target;
-      if (targetElement.classList.contains("ad-showing")) {
-        scrubAd();
+  window.requestAnimationFrame(() => {
+    for (const mutation of mutations) {
+      if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "class"
+      ) {
+        const targetElement = mutation.target;
+        if (targetElement.classList.contains("ad-showing")) {
+          scrubAd();
+          break;
+        }
+      }
+
+      const skipButtons = Array.from(document.querySelectorAll("[id]")).filter(
+        (el) => el.id.startsWith("skip-button:")
+      );
+
+      for (const button of skipButtons) {
+        if (button.offsetParent !== null) {
+          button.click();
+          break;
+        }
       }
     }
-
-    const skipButtons = Array.from(document.querySelectorAll("[id]")).filter(
-      (el) => el.id.startsWith("skip-button:")
-    );
-
-    for (const button of skipButtons) {
-      if (button.offsetParent !== null) {
-        button.click();
-        break;
-      }
-    }
-  }
+  });
 }
 
 function startObserving() {
   const targetNode = document.getElementById("movie_player");
   if (targetNode) {
-    const config = { attributes: true, childList: true, subtree: true };
+    const config = { attributes: true, childList: false, subtree: true };
     const observer = new MutationObserver(handleMutation);
     observer.observe(targetNode, config);
   } else {
@@ -56,3 +66,6 @@ chrome.storage.sync.get("enabled", function (data) {
     startObserving();
   }
 });
+
+setInterval(updateStorage, 60000);
+window.addEventListener("unload", updateStorage);
