@@ -2,7 +2,7 @@
 
 ## Overview
 
-YouTube Ad Scrubber is a Chrome Extension designed to enhance your video watching experience on YouTube by automatically skipping ads in video players. As of 11/11/2023, it has been tested and confirmed to work on Chrome and Opera GX.
+YouTube Ad Scrubber is a Chrome Extension designed to enhance your video watching experience on YouTube by automatically skipping ads in video players. As of 11/11/2023, it has been tested and confirmed to work on Chrome Version 119.0.6045.105. (Works on Opera GX as well, but metrics are not available)
 
 ## Features
 
