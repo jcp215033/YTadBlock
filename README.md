@@ -47,7 +47,7 @@ YouTube Ad Scrubber is still in its early stages. If you encounter any bugs or i
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](https://github.com/jcp215033/YTadBlock/blob/main/LICENSE).
 
 ## Disclaimer
 
