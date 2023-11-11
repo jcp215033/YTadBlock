@@ -38,8 +38,8 @@ This extension works by detecting if an ad is playing, skipping to the end, and 
 
 You can test the functionality of this ad blocker on these videos:
 
-- [Video 1](https://www.youtube.com/watch?v=LXvQUfUOcYI)
-- [Video 2](https://www.youtube.com/watch?app=desktop&v=LPDnemFoqVk)
+- [Warriors & Lakers Instant Classic - 2021 Play-In Tournament 🔥| NBA Classic Game](https://www.youtube.com/watch?app=desktop&v=LPDnemFoqVk)
+- [Kingdom of the Planet of the Apes - Official Teaser Trailer (2024)](https://www.youtube.com/watch?v=LXvQUfUOcYI)
 
 ## Contributing
 
