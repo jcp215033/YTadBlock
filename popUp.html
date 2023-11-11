@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>YouTube Ad Scrubber</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+            width: 200px;
+        }
+
+        .counter {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Ad Scrubber Control Panel</h3>
+    <label>
+        <input type="checkbox" id="toggle-extension"> Enable/Disable Extension
+    </label>
+    <div class="counter">
+        <strong>Total Ads Skipped:</strong> <span id="ads-skipped">0</span>
+    </div>
+    <div class="counter">
+        <strong>Total Time Saved:</strong> <span id="time-saved">0s</span>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>

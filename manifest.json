@@ -5,7 +5,8 @@
     "description": "Automatically skips ads on YouTube",
     "permissions": [
         "activeTab",
-        "scripting"
+        "scripting",
+        "storage"
     ],
     "host_permissions": [
       "https://www.youtube.com/*"
@@ -15,6 +16,9 @@
         "matches": ["https://www.youtube.com/*"],
         "js": ["content.js"]
       }
-    ]
+    ],
+    "action": {
+        "default_popup": "popUp.html"
+      }
   }
   
