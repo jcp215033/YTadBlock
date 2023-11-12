@@ -3,15 +3,21 @@ let videoPlayer = null;
 let adModule = null;
 let adData = { adsSkipped: 0, timeSaved: 0 };
 
+function initializeData() {
+  chrome.storage.sync.get("adData", function (data) {
+    if (data.adData) adData = data.adData;
+  });
+}
+
 function scrubAd() {
   if (!videoPlayer) {
     videoPlayer = document.querySelector("video");
   }
   if (videoPlayer && !videoPlayer.paused) {
     videoPlayer.currentTime = videoPlayer.duration;
-    videoPlayer.pause();
     adData.adsSkipped++;
     adData.timeSaved += videoPlayer.duration;
+    chrome.storage.sync.set({ adData: adData });
   }
 }
 
@@ -23,10 +29,6 @@ function skipAd() {
     );
     if (skipButton) skipButton.click();
   }
-}
-
-function updateStorage() {
-  chrome.storage.sync.set(adData);
 }
 
 function handleMutation(mutations) {
@@ -41,7 +43,6 @@ function handleMutation(mutations) {
         if (targetElement.classList.contains("ad-showing")) {
           scrubAd();
           skipAd();
-          updateStorage();
           break;
         }
       }
@@ -56,16 +57,19 @@ function startObserving() {
     const observer = new MutationObserver(handleMutation);
     observer.observe(targetNode, config);
   } else {
-    console.error("Target node not found");
+    console.error("Target node movie_player not found");
   }
 }
 
 chrome.storage.sync.get("enabled", function (data) {
   isEnabled = data.enabled !== false;
-  if (document.readyState === "loading")
-    document.addEventListener("DOMContentLoaded", startObserving);
-  else startObserving();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      startObserving();
+      initializeData();
+    });
+  } else {
+    startObserving();
+    initializeData();
+  }
 });
-
-// setInterval(updateStorage, 60000);
-// window.addEventListener("unload", updateStorage);
