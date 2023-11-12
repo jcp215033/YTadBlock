@@ -14,6 +14,7 @@ function scrubAd() {
     videoPlayer = document.querySelector("video");
   }
   if (videoPlayer && !videoPlayer.paused) {
+    videoPlayer.style.visibility = "hidden";
     videoPlayer.currentTime = videoPlayer.duration;
     adData.adsSkipped++;
     adData.timeSaved += videoPlayer.duration;
@@ -43,6 +44,7 @@ function handleMutation(mutations) {
         if (targetElement.classList.contains("ad-showing")) {
           scrubAd();
           skipAd();
+          videoPlayer.style.visibility = "";
           break;
         }
       }
@@ -60,7 +62,7 @@ function startObserving() {
       observer.observe(targetNode, config);
     } else {
       console.log("Waiting for target node movie_player...");
-      setTimeout(attemptObserving, 250);
+      setTimeout(attemptObserving, 100);
     }
   }
   attemptObserving();
