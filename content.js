@@ -51,14 +51,19 @@ function handleMutation(mutations) {
 }
 
 function startObserving() {
-  const targetNode = document.getElementById("movie_player");
-  if (targetNode) {
-    const config = { attributes: true, childList: false, subtree: true };
-    const observer = new MutationObserver(handleMutation);
-    observer.observe(targetNode, config);
-  } else {
-    console.error("Target node movie_player not found");
+  function attemptObserving() {
+    const targetNode = document.getElementById("movie_player");
+
+    if (targetNode) {
+      const config = { attributes: true, childList: false, subtree: true };
+      const observer = new MutationObserver(handleMutation);
+      observer.observe(targetNode, config);
+    } else {
+      console.log("Waiting for target node movie_player...");
+      setTimeout(attemptObserving, 250);
+    }
   }
+  attemptObserving();
 }
 
 chrome.storage.sync.get("enabled", function (data) {
