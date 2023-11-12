@@ -1,5 +1,6 @@
 let isEnabled = true;
 let videoPlayer = null;
+let adModule = null;
 let adData = { adsSkipped: 0, timeSaved: 0 };
 
 function scrubAd() {
@@ -11,6 +12,16 @@ function scrubAd() {
     videoPlayer.pause();
     adData.adsSkipped++;
     adData.timeSaved += videoPlayer.duration;
+  }
+}
+
+function skipAd() {
+  adModule = document.querySelector(".video-ads.ytp-ad-module");
+  if (adModule && adModule.children.length > 0) {
+    const skipButton = adModule.querySelector(
+      ".ytp-ad-skip-button-modern.ytp-button"
+    );
+    if (skipButton) skipButton.click();
   }
 }
 
@@ -29,17 +40,8 @@ function handleMutation(mutations) {
         const targetElement = mutation.target;
         if (targetElement.classList.contains("ad-showing")) {
           scrubAd();
-          break;
-        }
-      }
-
-      const skipButtons = Array.from(document.querySelectorAll("[id]")).filter(
-        (el) => el.id.startsWith("skip-button:")
-      );
-
-      for (const button of skipButtons) {
-        if (button.offsetParent !== null) {
-          button.click();
+          skipAd();
+          updateStorage();
           break;
         }
       }
@@ -60,12 +62,10 @@ function startObserving() {
 
 chrome.storage.sync.get("enabled", function (data) {
   isEnabled = data.enabled !== false;
-  if (document.readyState === "loading") {
+  if (document.readyState === "loading")
     document.addEventListener("DOMContentLoaded", startObserving);
-  } else {
-    startObserving();
-  }
+  else startObserving();
 });
 
-setInterval(updateStorage, 60000);
-window.addEventListener("unload", updateStorage);
+// setInterval(updateStorage, 60000);
+// window.addEventListener("unload", updateStorage);
