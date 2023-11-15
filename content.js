@@ -5,7 +5,11 @@ let adData = { adsSkipped: 0, timeSaved: 0 };
 
 function initializeData() {
   chrome.storage.sync.get("adData", function (data) {
-    if (data.adData) adData = data.adData;
+    if (data && data.adData) {
+      adData = data.adData;
+    } else {
+      adData = { adsSkipped: 0, timeSaved: 0 };
+    }
   });
 }
 
@@ -69,7 +73,11 @@ function startObserving() {
 }
 
 chrome.storage.sync.get("enabled", function (data) {
-  isEnabled = data.enabled !== false;
+  if (data && data.enabled !== undefined) {
+    isEnabled = data.enabled;
+  } else {
+    isEnabled = true;
+  }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       startObserving();
