@@ -12,15 +12,26 @@ AdNix is a Chrome Extension designed to enhance your video watching experience o
 
 ## Installation
 
-Clone the repository:
+There are two methods to install this extension:
 
-```bash
-  git clone https://github.com/jcp215033/YTadBlock.git
-```
+### Method 1: Clone the repository
 
-Open Chrome and go to `chrome://extensions/`.
-Enable Developer Mode by clicking the toggle switch next to "Developer mode".
-Click the "Load unpacked" button and select the extension directory.
+1. Clone the repository using the following command:
+    ```bash
+    git clone https://github.com/jcp215033/YTadBlock.git
+    ```
+2. Open Chrome and navigate to `chrome://extensions/`.
+3. Enable Developer Mode by clicking the toggle switch next to "Developer mode".
+4. Click the "Load unpacked" button and select the extension directory.
+
+### Method 2: Download the zip file from GitHub
+
+1. Go to the [Releases tab](https://github.com/jcp215033/YTadBlock/releases) of this GitHub repository.
+2. Download the latest release zip file.
+3. Unpack the downloaded zip file to a desired location on your computer.
+4. Open Chrome and go to `chrome://extensions/`.
+5. Enable Developer Mode by clicking the toggle switch next to "Developer mode".
+6. Click the "Load unpacked" button and select the unpacked extension directory.
 
 ## Usage
 
