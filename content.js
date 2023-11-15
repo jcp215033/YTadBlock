@@ -19,9 +19,11 @@ function scrubAd() {
   }
   if (videoPlayer && !videoPlayer.paused) {
     videoPlayer.style.visibility = "hidden";
-    videoPlayer.currentTime = videoPlayer.duration;
+    if (isFinite(videoPlayer.duration)) {
+      videoPlayer.currentTime = videoPlayer.duration;
+      adData.timeSaved += videoPlayer.duration;
+    }
     adData.adsSkipped++;
-    adData.timeSaved += videoPlayer.duration;
     chrome.storage.sync.set({ adData: adData });
   }
 }
