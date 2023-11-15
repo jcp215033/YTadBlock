@@ -4,7 +4,6 @@
     "version": "1.0",
     "description": "Automatically skips ads on YouTube",
     "permissions": [
-        "activeTab",
         "storage"
     ],
     "host_permissions": [
